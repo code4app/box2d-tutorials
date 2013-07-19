@@ -155,7 +155,7 @@ enum {
                                            andSize:CGSizeMake(5, 50)];
     self.testWall->SetLinearVelocity(b2Vec2(2, 0));*/
     
-    self.testWall = [self b2BodykinematicWithPosition:ccp(380, 30)
+    self.testWall = [self b2BodykinematicWithPosition:ccp(580, 30)
                                              andAngle:0
                                               andSize:CGSizeMake(5, 50)];
     self.testWall->SetLinearVelocity(b2Vec2(-2, 0));
