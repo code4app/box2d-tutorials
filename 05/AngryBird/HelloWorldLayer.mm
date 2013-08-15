@@ -123,19 +123,19 @@ enum {
 	
 	// bottom
 	
-	groundBox.Set(b2Vec2(0,0), b2Vec2(s.width * 2/PTM_RATIO,0));
+	groundBox.Set(b2Vec2(0, FLOOR_HEIGHT/PTM_RATIO), b2Vec2(s.width * 2 / PTM_RATIO, FLOOR_HEIGHT/PTM_RATIO));
 	groundBody->CreateFixture(&groundBox,0);
-	
+	 
 	// top
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(s.width * 2/PTM_RATIO,s.height/PTM_RATIO));
+	groundBox.Set(b2Vec2(0, s.height / PTM_RATIO), b2Vec2(s.width * 2 / PTM_RATIO, s.height / PTM_RATIO));
 	groundBody->CreateFixture(&groundBox,0);
 	
 	// left
-	groundBox.Set(b2Vec2(0,s.height/PTM_RATIO), b2Vec2(0,0));
+	groundBox.Set(b2Vec2(0, s.height / PTM_RATIO), b2Vec2(0,0));
 	groundBody->CreateFixture(&groundBox,0);
 	
 	// right
-	groundBox.Set(b2Vec2(s.width * 2/PTM_RATIO,s.height/PTM_RATIO), b2Vec2(s.width/PTM_RATIO,0));
+	groundBox.Set(b2Vec2(s.width * 2 / PTM_RATIO, s.height / PTM_RATIO), b2Vec2(s.width * 2 / PTM_RATIO,0));
 	groundBody->CreateFixture(&groundBox,0);
     
     CCSprite *sprite = [CCSprite spriteWithFile:@"bg.png"];
@@ -320,6 +320,21 @@ enum {
             world->DestroyJoint(bulletJoint);
             bulletJoint = nil;
             
+        }
+    }
+    
+    // Bullet is moving.
+    if (bulletBody && bulletJoint == nil)
+    {
+        b2Vec2 position = bulletBody->GetPosition();
+        CGPoint myPosition = self.position;
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        
+        // Move the camera.
+        if (position.x > screenSize.width / 2.0f / PTM_RATIO)
+        {
+            myPosition.x = -MIN(screenSize.width * 2.0f - screenSize.width, position.x * PTM_RATIO - screenSize.width / 2.0f);
+            self.position = myPosition;
         }
     }
 }
